@@ -35,9 +35,9 @@ class monit (
       fail("monit supports osfamilies Debian and RedHat. Detected osfamily is <${::osfamily}>.")
     }
     'Debian': {
-      $monit_version       = '5'
-      $default_config_file = '/etc/monit/monitrc'
-      $default_config_dir  = '/etc/monit/conf.d'
+      $default_monit_version = '5'
+      $default_config_file   = '/etc/monit/monitrc'
+      $default_config_dir    = '/etc/monit/conf.d'
 
       case $::lsbdistcodename {
         default: {
@@ -62,16 +62,16 @@ class monit (
           fail("monit supports EL 5, 6 and 7. Detected operatingsystemmajrelease is <${::operatingsystemmajrelease}>.")
         }
         '5': {
-          $monit_version       = '4'
-          $default_config_file = '/etc/monit.conf'
+          $default_monit_version = '4'
+          $default_config_file   = '/etc/monit.conf'
         }
         '6': {
-          $monit_version       = '5'
-          $default_config_file = '/etc/monit.conf'
+          $default_monit_version = '5'
+          $default_config_file   = '/etc/monit.conf'
         }
         '7': {
-          $monit_version       = '5'
-          $default_config_file = '/etc/monitrc'
+          $default_monit_version = '5'
+          $default_config_file   = '/etc/monitrc'
         }
       }
     }
@@ -177,7 +177,7 @@ class monit (
   if $::monit_version {
     $monit_version_real = $::monit_version
   } else {
-    $monit_version_real = $monit_version
+    $monit_version_real = $default_monit_version
   }
 
   if($start_delay + 0 > 0 and versioncmp($monit_version_real,'5') < 0) {

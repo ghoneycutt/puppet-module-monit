@@ -17,10 +17,13 @@ RSpec.configure do |c|
     if Gem::Version.new(`puppet --version`) >= Gem::Version.new('3.5')
       Puppet.settings[:strict_variables] = true
     end
-    Puppet.settings[:parser] = ENV['PARSER'] if ENV['PARSER']
   end
 
   c.after :each do
     PuppetlabsSpec::Files.cleanup
   end
+
+  c.default_facts = {
+    :environment => 'rp_env',
+  }
 end
